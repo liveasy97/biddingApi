@@ -29,7 +29,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
       
-    - run: cd ~/actions-runner-bid/deploy/biddingApi/biddingApi/biddingApi/biddingApi/
+    - run: cd ~/actions-runner/deploy/biddingApi/biddingApi/biddingApi/biddingApi/
     - run: sudo docker container stop test || true
     - run: sudo docker container stop docker-postgres || true
     - run: sudo docker container prune -f
