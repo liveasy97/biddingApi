@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import biddingApi.biddingApi.Dao.BiddingDao;
@@ -20,11 +21,15 @@ import biddingApi.biddingApi.Model.BidPostRequest;
 import biddingApi.biddingApi.Model.BidPostResponse;
 import biddingApi.biddingApi.Model.BidPutRequest;
 import biddingApi.biddingApi.Model.BidPutResponse;
+import biddingApi.biddingApi.Util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class BiddingServiceImpl implements BiddingService {
+
+	@Autowired
+	JwtUtil jwtUtil;
 
 	@Autowired
 	private BiddingDao biddingDao;
@@ -98,57 +103,58 @@ public class BiddingServiceImpl implements BiddingService {
 	public List<BiddingData> getBid(Integer pageNo, String loadId, String transporterId) {
 		// TODO Auto-generated method stub
 
-		List<BiddingData> list = null;
+		//		List<BiddingData> list = null;
 		if (pageNo == null)
 			pageNo = 0;
 
 		if (loadId != null && transporterId == null) {
 
+
 			try {
-				Pageable p = PageRequest.of(pageNo, (int) Constants.pageSize);
-				list = biddingDao.findByLoadId(loadId, p);
-				Collections.reverse(list);
+				Pageable page = PageRequest.of(pageNo, Constants.pageSize, Sort.Direction.DESC, "timestamp");
+				//				list = biddingDao.findByLoadId(loadId, page);
+				//				Collections.reverse(list);
 				log.info("Bidding Data with params returned");
-				return list;
+				return biddingDao.findByLoadId(loadId, page);
 			} catch (Exception ex) {
 				log.error("Bidding Data with params not returned -----" + String.valueOf(ex));
 				throw ex;
 			}
 
 		} else if (loadId == null && transporterId != null) {
-			
+
 			try {
-				Pageable p = PageRequest.of(pageNo, (int) Constants.pageSize);
-				list = biddingDao.findByTransporterId(transporterId, p);
-				Collections.reverse(list);
-				log.info("Bidding Data with params returned");
-				return list;
+				Pageable page = PageRequest.of(pageNo, Constants.pageSize, Sort.Direction.DESC, "timestamp");
+				//				list = biddingDao.findByTransporterId(transporterId, page);
+				//				Collections.reverse(list);
+				//				log.info("Bidding Data with params returned");
+				return biddingDao.findByTransporterId(transporterId, page);
 			} catch (Exception ex) {
 				log.error("Bidding Data with params not returned -----" + String.valueOf(ex));
 				throw ex;
 			}
 
 		} else if (loadId != null && transporterId != null) {
-			
+
 			try {
-				Pageable p = PageRequest.of(pageNo, (int) Constants.pageSize);
-				list = biddingDao.findByLoadIdAndTransporterId(loadId, transporterId, p);
-				Collections.reverse(list);
+				Pageable page = PageRequest.of(pageNo, Constants.pageSize, Sort.Direction.DESC, "timestamp");
+				//				list = biddingDao.findByLoadIdAndTransporterId(loadId, transporterId, page);
+				//				Collections.reverse(list);
 				log.info("Bidding Data with params returned");
-				return list;
+				return biddingDao.findByLoadIdAndTransporterId(loadId, transporterId, page);
 			} catch (Exception ex) {
 				log.error("Bidding Data with params not returned -----" + String.valueOf(ex));
 				throw ex;
 			}
 
 		} else {
-			
+
 			try {
-				Pageable p = PageRequest.of(pageNo, (int) Constants.pageSize);
-				list = biddingDao.getAll(p);
-				Collections.reverse(list);
+				Pageable page = PageRequest.of(pageNo, Constants.pageSize, Sort.Direction.DESC, "timestamp");
+				//				list = biddingDao.getAll(p);
+				//				Collections.reverse(list);
 				log.info("Bidding Data get all returned");
-				return list;
+				return biddingDao.getAll(page);
 			} catch (Exception ex) {
 				log.error("Bidding Data get all not returned -----" + String.valueOf(ex));
 				throw ex;

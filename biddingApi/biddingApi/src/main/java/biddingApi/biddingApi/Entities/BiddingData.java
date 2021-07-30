@@ -1,5 +1,6 @@
 package biddingApi.biddingApi.Entities;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -53,5 +55,8 @@ public @Data class BiddingData {
 	private Boolean shipperApproval;
 
 	private String biddingDate;
+
+	@CreationTimestamp
+	public Timestamp timestamp;
 
 }
