@@ -35,7 +35,7 @@ public class BiddingServiceImpl implements BiddingService {
 	private BiddingDao biddingDao;
 
 	@Override
-	public BidPostResponse addBid(BidPostRequest request) {
+	public BidPostResponse addBid(BidPostRequest request,String token) {
 
 		BiddingData data = new BiddingData();
 		BidPostResponse response = new BidPostResponse();
@@ -100,7 +100,7 @@ public class BiddingServiceImpl implements BiddingService {
 	}
 
 	@Override
-	public List<BiddingData> getBid(Integer pageNo, String loadId, String transporterId) {
+	public List<BiddingData> getBid(Integer pageNo, String loadId, String transporterId,String token) {
 		// TODO Auto-generated method stub
 
 		//		List<BiddingData> list = null;
@@ -164,7 +164,7 @@ public class BiddingServiceImpl implements BiddingService {
 	}
 
 	@Override
-	public BidDeleteResponse deleteBid(String id) {
+	public BidDeleteResponse deleteBid(String id,String token) {
 
 		BidDeleteResponse response = new BidDeleteResponse();
 
@@ -197,7 +197,7 @@ public class BiddingServiceImpl implements BiddingService {
 	}
 
 	@Override
-	public BiddingData getBidById(String id) {
+	public BiddingData getBidById(String id,String token) {
 		Optional<BiddingData> temp = (biddingDao.findById(id));
 
 		if (temp.isEmpty()) {
@@ -217,7 +217,7 @@ public class BiddingServiceImpl implements BiddingService {
 	}
 
 	@Override
-	public BidPutResponse updateBid(String id, BidPutRequest bidPutRequest) {
+	public BidPutResponse updateBid(String id, BidPutRequest bidPutRequest,String token) {
 
 		BidPutResponse response = new BidPutResponse();
 		BiddingData data = biddingDao.findById(id).orElse(null);
