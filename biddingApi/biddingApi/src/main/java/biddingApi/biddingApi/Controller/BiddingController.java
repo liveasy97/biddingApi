@@ -45,7 +45,7 @@ public class BiddingController {
 					throws EntityNotFoundException {
 		log.info("Get with Params Controller Started");
 
-		jwtUtil.validateToken(token);
+//		jwtUtil.validateToken(token);
 		//		System.out.println("token validation successful");
 		return new ResponseEntity<>(biddingService.getBid(pageNo, loadId, transporterId,token), HttpStatus.OK);
 	}
@@ -55,7 +55,7 @@ public class BiddingController {
 			@RequestHeader(value="Authorization",defaultValue="") String token,
 			@PathVariable String Id) throws EntityNotFoundException {
 		log.info("Get Controller Started");
-		jwtUtil.validateToken(token);
+//		jwtUtil.validateToken(token);
 		return new ResponseEntity<>(biddingService.getBidById(Id,token), HttpStatus.OK);
 	}
 
@@ -64,7 +64,7 @@ public class BiddingController {
 			@RequestHeader(value="Authorization",defaultValue="") String token,
 			@RequestBody BidPostRequest bidPostRequest) {
 		log.info("Post Controller Started");
-		jwtUtil.validateToken(token);
+//		jwtUtil.validateToken(token);
 		return new ResponseEntity<>(biddingService.addBid(bidPostRequest,token), HttpStatus.CREATED);
 	}
 
@@ -75,7 +75,7 @@ public class BiddingController {
 			@RequestBody BidPutRequest bidPutRequest)
 					throws EntityNotFoundException {
 		log.info("Put Controller Started");
-		jwtUtil.validateToken(token);
+//		jwtUtil.validateToken(token);
 		return new ResponseEntity<>(biddingService.updateBid(id, bidPutRequest,token), HttpStatus.OK);
 	}
 
@@ -84,7 +84,7 @@ public class BiddingController {
 			@RequestHeader(value="Authorization",defaultValue="") String token,
 			@PathVariable String Id) throws EntityNotFoundException {
 		log.info("Delete Controller Started");
-		jwtUtil.validateToken(token);
+//		jwtUtil.validateToken(token);
 		return new ResponseEntity<>(biddingService.deleteBid(Id,token), HttpStatus.OK);
 	}
 
