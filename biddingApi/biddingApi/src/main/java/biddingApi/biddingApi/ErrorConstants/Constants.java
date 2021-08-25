@@ -35,6 +35,6 @@ public class Constants {
 
 	public static String BASE_URI = "http://localhost:8080/bid";
 
-	public static final long pageSize = 15;
+	public static final int pageSize = 15;
 
 }

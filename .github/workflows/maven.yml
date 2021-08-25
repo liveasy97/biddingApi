@@ -30,9 +30,7 @@ jobs:
       
     - run: cd ~/actions-runner/deploy/biddingApi/biddingApi/biddingApi/biddingApi/
     - run: sudo docker container stop biddingContainer || true
-    - run: sudo docker container start docker-postgres || true
-    - run: sudo docker container prune -f
+    - run: sudo docker container rm biddingContainer|| true
     - run: sudo docker image rm bidding || true
     - run: sudo docker build -t bidding .
-    - run: sudo docker run --name docker-postgres -e POSTGRES_ROOT_PASSWORD=Varun09! -e POSTGRES_DATABASE=postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=Varun09! -d postgres:alpine || true
-    - run: sudo docker run -p 8080:8080 --name biddingContainer --link docker-postgres:postgres bidding | echo "success" 
+    - run: sudo docker run -p 8080:8080 --name biddingContainer bidding | echo "success" 
