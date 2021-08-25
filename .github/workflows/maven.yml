@@ -30,7 +30,7 @@ jobs:
       
     - run: cd ~/actions-runner/deploy/biddingApi/biddingApi/biddingApi/biddingApi/
     - run: sudo docker container stop biddingContainer || true
-    - run: sudo docker container prune -f
+    - run: sudo docker container rm biddingContainer|| true
     - run: sudo docker image rm bidding || true
     - run: sudo docker build -t bidding .
     - run: sudo docker run -p 8080:8080 --name biddingContainer bidding | echo "success" 
