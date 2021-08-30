@@ -65,20 +65,30 @@ public class TestBiddingService {
 		assertEquals(bidPostResponse.getShipperApproval(), biddingService.addBid(bidPostRequest, null).getShipperApproval());
 	}
 
+
+	/**
+	 * Null check on loadId is not happening in service layer,instead its happening in Dao layer.
+	 * Hence this test case is failing currently.
+	 */
 	@Test
 	public void addDataFailed_invalidLoadId_null() {
 
 		BidPostRequest bidPostRequest = new BidPostRequest("transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", null,
 				(long) 20, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), null);
 
-		List<BiddingData> listBiddingData = createBiddingData();
+//		List<BiddingData> listBiddingData = createBiddingData();
+//		when(biddingDao.save(listBiddingData.get(2))).thenReturn(listBiddingData.get(2));
 
-		when(biddingDao.save(listBiddingData.get(2))).thenReturn(listBiddingData.get(2));
-
-		BidPostResponse response = new BidPostResponse(Constants.pLoadIdIsNull, null, null, null, null, null, null,
-				null, null, null, null);
-
-		assertEquals(response.getLoadId(), biddingService.addBid(bidPostRequest, null).getLoadId());
+		BidPostResponse expected = new BidPostResponse(Constants.pLoadIdIsNull, Constants.ID,
+				"transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", "load:123", (long) 20, null, BiddingData.Unit.PER_TON,
+				Arrays.asList("truck:123"), true, false, null);
+		
+		BidPostResponse actual = biddingService.addBid(bidPostRequest, null);
+		
+		// skip BidId check as it is randomly generated in addBid() method //
+		expected.setBidId(actual.getBidId());
+		
+		assertEquals(expected, actual);
 
 	}
 
@@ -87,14 +97,19 @@ public class TestBiddingService {
 		BidPostRequest bidPostRequest = new BidPostRequest("transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69",
 				"load:1345", null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), null);
 
-		List<BiddingData> listBiddingData = createBiddingData();
-
-		when(biddingDao.save(listBiddingData.get(2))).thenReturn(listBiddingData.get(2));
-
-		BidPostResponse response = new BidPostResponse(Constants.CURRENT_BID_NULL, null, null, null, null, null,
-				null, null, null, null, null);
-
-		assertEquals(response.getCurrentBid(), biddingService.addBid(bidPostRequest, null).getCurrentBid());
+//		List<BiddingData> listBiddingData = createBiddingData();
+//		when(biddingDao.save(listBiddingData.get(2))).thenReturn(listBiddingData.get(2));
+		
+		BidPostResponse expected = new BidPostResponse(Constants.CURRENT_BID_NULL, Constants.ID,
+				"transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", "load:123", (long) 20, null, BiddingData.Unit.PER_TON,
+				Arrays.asList("truck:123"), true, false, null);
+		
+		BidPostResponse actual = biddingService.addBid(bidPostRequest, null);
+		
+		// skip BidId check as it is randomly generated in addBid() method //
+		expected.setBidId(actual.getBidId());
+		
+		assertEquals(expected,actual);
 	}
 
 	@Test
@@ -118,10 +133,16 @@ public class TestBiddingService {
 
 		when(biddingDao.save(listBiddingData.get(2))).thenReturn(listBiddingData.get(5));
 
-		BidPostResponse response = new BidPostResponse(Constants.TRANSPORTER_ID_NULL, null, null, null, null, null,
-				null, null, null, null, null);
+		BidPostResponse expected = new BidPostResponse(Constants.TRANSPORTER_ID_NULL, Constants.ID,
+				"transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", "load:123", (long) 20, null, BiddingData.Unit.PER_TON,
+				Arrays.asList("truck:123"), true, false, null);
 
-		assertEquals(response.getTransporterId(),biddingService.addBid(bidPostRequest, null).getTransporterId());
+		BidPostResponse actual = biddingService.addBid(bidPostRequest, null);
+		
+		// skip BidId check as it is randomly generated in addBid() method //
+		expected.setBidId(actual.getBidId());
+		
+		assertEquals(expected,actual);
 	}
 
 	@Test
@@ -162,9 +183,9 @@ public class TestBiddingService {
 
 		BidPutResponse response = new BidPutResponse(Constants.uSuccess, Constants.ID,
 				"transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", "load:1234", (long) 1000,
-				null, BiddingData.Unit.PER_TRUCK, Arrays.asList("truck:abcdef"), true, false, null);
+				(long)20, BiddingData.Unit.PER_TRUCK, Arrays.asList("truck:abcdef"), true, false, null);
 
-		assertEquals(response.getStatus(), biddingService.updateBid(Constants.ID, bidPutRequest, null).getStatus());
+		assertEquals(response, biddingService.updateBid(Constants.ID, bidPutRequest, null));
 
 	}
 
@@ -180,9 +201,9 @@ public class TestBiddingService {
 
 		BidPutResponse response = new BidPutResponse(Constants.uSuccess, Constants.ID,
 				"transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb69", "load:1234", (long) 1000,
-				null, BiddingData.Unit.PER_TRUCK, Arrays.asList("truck:123"), false, true, null);
+				(long)20, BiddingData.Unit.PER_TRUCK, Arrays.asList("truck:123"), false, true, null);
 
-		assertEquals(response.getStatus(), biddingService.updateBid(Constants.ID, bidPutRequest, null).getStatus());
+		assertEquals(response, biddingService.updateBid(Constants.ID, bidPutRequest, null));
 
 	}
 
@@ -336,7 +357,7 @@ public class TestBiddingService {
 
 		BidDeleteResponse response = new BidDeleteResponse(Constants.dSuccess);
 
-		assertEquals(response.getStatus(), biddingService.deleteBid(Constants.ID, null).getStatus());
+		assertEquals(response, biddingService.deleteBid(Constants.ID, null));
 
 	}
 	
