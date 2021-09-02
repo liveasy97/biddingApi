@@ -51,7 +51,7 @@ public class TestBiddingDao {
 		List<BiddingData> listBiddingData = createBiddingData();
 
 		BiddingData savedInDb = entityManager.persist(listBiddingData.get(0));
-		Optional<BiddingData> getFromDb = biddingDao.findById(Constants.ID);
+		Optional<BiddingData> getFromDb = biddingDao.findById("bid:0de885e0-5f43-4c68-8dde-000000000001");
 
 		assertThat(getFromDb).isEqualTo(Optional.ofNullable((savedInDb)));
 
@@ -187,11 +187,11 @@ public class TestBiddingDao {
 		BiddingData savedInDb2 = entityManager.persist(listBiddingData.get(2));
 
 		currentPage = PageRequest.of(0, (int) Constants.pageSize);
-		List<BiddingData> allBids = biddingDao.findByLoadIdAndTransporterId(Constants.LOAD_ID,
-				Constants.TRANSPORTER_ID, currentPage);
+		List<BiddingData> allBids = biddingDao.findByLoadIdAndTransporterId("load:0de885e0-5f43-4c68-8dde1-00000000001",
+				"transporterId:0de885e0-5f43-4c681-8dde-000000000011", currentPage);
 
 		assertThat(allBids.size()).isEqualTo(1);
-		assertEquals(savedInDb1,allBids.get(0));
+		assertEquals(savedInDb,allBids.get(0));
 	}
 	
 	@Test
@@ -203,9 +203,9 @@ public class TestBiddingDao {
 		BiddingData savedInDb1 = entityManager.persist(listBiddingData.get(1));
 		BiddingData savedInDb2 = entityManager.persist(listBiddingData.get(2));
 
-		BiddingData getFromDb = biddingDao.findByLoadIdAndTransporterId(Constants.LOAD_ID,
-				Constants.TRANSPORTER_ID);
-		assertEquals(savedInDb1,getFromDb);
+		BiddingData getFromDb = biddingDao.findByLoadIdAndTransporterId("load:0de885e0-5f43-4c68-8dde1-00000000001",
+				"transporterId:0de885e0-5f43-4c681-8dde-000000000011");
+		assertEquals(savedInDb,getFromDb);
 		
 	}
 
@@ -219,7 +219,7 @@ public class TestBiddingDao {
 		
 		BiddingData savedInDbAfterUpdate = entityManager.persist(listBiddingData.get(0));
 		
-		Optional<BiddingData> getFromDb = biddingDao.findById(Constants.ID);
+		Optional<BiddingData> getFromDb = biddingDao.findById("bid:0de885e0-5f43-4c68-8dde-000000000001");
 		
 		assertThat(getFromDb).isEqualTo(Optional.ofNullable((savedInDbAfterUpdate)));
 	
@@ -244,21 +244,20 @@ public class TestBiddingDao {
 
 	public List<BiddingData> createBiddingData() {
 		List<BiddingData> biddingList = Arrays.asList(
-				new BiddingData(Constants.ID, Constants.TRANSPORTER_ID, "load:1234", (long) 20,
-						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), false, true, null, null),
-				new BiddingData("id1", Constants.TRANSPORTER_ID, Constants.LOAD_ID, (long) 20, null, BiddingData.Unit.PER_TON,
-						Arrays.asList("truck:123"), false, true, null, null),
-				new BiddingData("id2", "transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb61", Constants.LOAD_ID,
-						(long) 40, null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), false, true, null, null),
-				new BiddingData("id3", "transporterId:0de885e0-5f43-4c68-8dde-b0f9ff81cb63", Constants.LOAD_ID, (long)20,
-						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123", "truck:456"), false, true, null, null),
-				new BiddingData("id4", "transporterId:12", Constants.LOAD_ID, (long) 20, null, BiddingData.Unit.PER_TON,
-						Arrays.asList("truck:123"), false, true, null, null),
-				new BiddingData("id5", "transporterId:12345", "load:1234", (long) 20, null, BiddingData.Unit.PER_TON,
-						Arrays.asList("truck:123"), false, true, null, null)
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000001", "transporterId:0de885e0-5f43-4c681-8dde-000000000011", "load:0de885e0-5f43-4c68-8dde1-00000000001", (long) 10,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000011"), true, false, null, null),
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000002", "transporterId:0de885e0-5f43-4c682-8dde-000000000012", "load:0de885e0-5f43-4c68-8dde2-00000000002", (long) 20,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000021"), true, false, null, null),
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000003", "transporterId:0de885e0-5f43-4c683-8dde-000000000013", "load:0de885e0-5f43-4c68-8dde3-00000000003", (long) 30,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000031"), true, false, null, null),
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000004", "transporterId:0de885e0-5f43-4c684-8dde-000000000014", "load:0de885e0-5f43-4c68-8dde4-000000000004", (long) 40,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000041"), true, false, null, null),
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000005", "transporterId:0de885e0-5f43-4c685-8dde-000000000015", "load:0de885e0-5f43-4c68-8dde5-000000000005", (long) 50,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000051"), true, false, null, null),
+				new BiddingData("bid:0de885e0-5f43-4c68-8dde-000000000006", "transporterId:0de885e0-5f43-4c686-8dde-000000000016", "load:0de885e0-5f43-4c68-8dde6-000000000006", (long) 60,
+						null, BiddingData.Unit.PER_TON, Arrays.asList("truck:0de885e0-5f43-4c68-8dde-000000000061"), true, false, null, null)
 
 		);
-
 		return biddingList;
 	}
 
