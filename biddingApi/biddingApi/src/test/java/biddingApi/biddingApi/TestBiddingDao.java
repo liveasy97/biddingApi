@@ -58,55 +58,77 @@ public class TestBiddingDao {
 	}
 
 	@Test
-	public void testFindByLoadId() {
-
-		List<BiddingData> listBiddingData = createBiddingData();
-
-		BiddingData savedInDb = entityManager.persist(listBiddingData.get(0));
-		BiddingData savedInDb1 = entityManager.persist(listBiddingData.get(1));
-		BiddingData savedInDb2 = entityManager.persist(listBiddingData.get(2));
-		BiddingData savedInDb3 = entityManager.persist(listBiddingData.get(3));
-		BiddingData savedInDb4 = entityManager.persist(listBiddingData.get(4));
-		BiddingData savedInDb5 = entityManager.persist(listBiddingData.get(5));
-
-		List<BiddingData> allBids = biddingDao.findByLoadId(Constants.LOAD_ID);
+	public void testFindByLoadId() {	
 		
-		assertThat(allBids.size()).isEqualTo(4);
-		
-		for(BiddingData data : allBids) {
-			assertTrue(listBiddingData.contains(data));
+		List<BiddingData> loadId1 = new ArrayList<BiddingData>();
+		List<BiddingData> loadId2 = new ArrayList<BiddingData>();
+		for(int i=11; i<=28; i++)
+		{
+			boolean firstLoad;
+			if (i%2 == 1) {
+				firstLoad = true;
+			}else {
+				firstLoad = false;
+			}
+			
+			String loadId = firstLoad ? "load:1" : "load:2";
+			
+			BiddingData savedInDb = entityManager.persist(new BiddingData("bid:"+i, "transporter:"+i, loadId, (long) 20,
+					null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), false, true, null, Timestamp.valueOf("2021-07-28 23:28:50.134")));
+			
+			entityManager.flush();
+			
+			if(firstLoad) loadId1.add(savedInDb);
+			else  loadId2.add(savedInDb);
+			
+			wait(1);
 		}
+		List<BiddingData> getFromDb = biddingDao.findByLoadId("load:1");
+		assertThat(loadId1.size()).isEqualTo(getFromDb.size());
+		assertEquals(loadId1,getFromDb);
+		
 	}
 
 	@Test
 	public void testFindByLoadIdWithPagination() {
 
-		Pageable currentPage;
-		List<BiddingData> listBiddingData = createBiddingData();
-
-		BiddingData savedInDb = entityManager.persist(listBiddingData.get(0));
-		BiddingData savedInDb1 = entityManager.persist(listBiddingData.get(1));
-		BiddingData savedInDb2 = entityManager.persist(listBiddingData.get(2));
-		BiddingData savedInDb3 = entityManager.persist(listBiddingData.get(3));
-		BiddingData savedInDb4 = entityManager.persist(listBiddingData.get(4));
-		BiddingData savedInDb5 = entityManager.persist(listBiddingData.get(5));
-
-		currentPage = PageRequest.of(0, (int) Constants.pageSize);
-
-		List<BiddingData> allBids = biddingDao.findByLoadId("load:123", currentPage);
-
-		assertThat(allBids.size()).isEqualTo(4);
-		for(BiddingData data : allBids) {
-			assertTrue(listBiddingData.contains(data));
+		List<BiddingData> loadId1 = new ArrayList<BiddingData>();
+		List<BiddingData> loadId2 = new ArrayList<BiddingData>();
+		for(int i=11; i<=28; i++)
+		{
+			boolean firstLoad;
+			if (i%2 == 1) {
+				firstLoad = true;
+			}else {
+				firstLoad = false;
+			}
+			
+			String loadId = firstLoad ? "load:1" : "load:2";
+			
+			BiddingData savedInDb = entityManager.persist(new BiddingData("bid:"+i, "transporter:"+i, loadId, (long) 20,
+					null, BiddingData.Unit.PER_TON, Arrays.asList("truck:123"), false, true, null, Timestamp.valueOf("2021-07-28 23:28:50.134")));
+			
+			entityManager.flush();
+			
+			if(firstLoad) loadId1.add(savedInDb);
+			else  loadId2.add(savedInDb);
+			
+			wait(1);
 		}
-
-		Pageable nextPage = PageRequest.of(1, (int) Constants.pageSize);
-		List<BiddingData> allBidsNextPage = biddingDao.findByLoadId("load:123", nextPage);
-
-		assertThat(allBidsNextPage.size()).isEqualTo(0);
-		for(BiddingData data : allBidsNextPage) {
-			assertTrue(listBiddingData.contains(data));
-		}
+		
+		Collections.reverse(loadId1);
+		Collections.reverse(loadId2);
+		
+		PageRequest firstPage = PageRequest.of(0, 5, Sort.Direction.DESC, "timestamp"),
+		            secondPage = PageRequest.of(1, 5, Sort.Direction.DESC, "timestamp"),
+		            thirdPage = PageRequest.of(2, 5, Sort.Direction.DESC, "timestamp");
+		assertThat(loadId1.subList(0, 5)).isEqualTo(biddingDao.findByLoadId("load:1",firstPage));
+	    assertThat(loadId1.subList(5, 9)).isEqualTo(biddingDao.findByLoadId("load:1",secondPage));
+	    assertThat(loadId1.subList(9, 9)).isEqualTo(biddingDao.findByLoadId("load:1",thirdPage));
+	    
+	    assertThat(loadId2.subList(0, 5)).isEqualTo(biddingDao.findByLoadId( "load:2",firstPage));
+	    assertThat(loadId2.subList(5, 9)).isEqualTo(biddingDao.findByLoadId( "load:2",secondPage));
+	    assertThat(loadId2.subList(9, 9)).isEqualTo(biddingDao.findByLoadId( "load:2",thirdPage));
 	}
 
 	@Test
@@ -181,9 +203,9 @@ public class TestBiddingDao {
 		BiddingData savedInDb1 = entityManager.persist(listBiddingData.get(1));
 		BiddingData savedInDb2 = entityManager.persist(listBiddingData.get(2));
 
-		BiddingData fromDao = biddingDao.findByLoadIdAndTransporterId(Constants.LOAD_ID,
+		BiddingData getFromDb = biddingDao.findByLoadIdAndTransporterId(Constants.LOAD_ID,
 				Constants.TRANSPORTER_ID);
-		assertEquals(savedInDb1,fromDao);
+		assertEquals(savedInDb1,getFromDb);
 		
 	}
 
@@ -195,11 +217,11 @@ public class TestBiddingDao {
 		
 		listBiddingData.get(0).setCurrentBid((long) 101);
 		
-		entityManager.persist(listBiddingData.get(0));
+		BiddingData savedInDbAfterUpdate = entityManager.persist(listBiddingData.get(0));
 		
 		Optional<BiddingData> getFromDb = biddingDao.findById(Constants.ID);
 		
-		assertEquals(101,getFromDb.get().getCurrentBid());
+		assertThat(getFromDb).isEqualTo(Optional.ofNullable((savedInDbAfterUpdate)));
 	
 	}
 	
@@ -213,12 +235,10 @@ public class TestBiddingDao {
 
 		entityManager.remove(savedInDb1);
 
-		List<BiddingData> allBids = biddingDao.findAll();
-
-		assertThat(allBids.size()).isEqualTo(1);
-		for (BiddingData data : allBids) {
-			assertTrue(listBiddingData.contains(data));
-		}
+		List<BiddingData> getFromDb = biddingDao.findAll();
+		assertThat(getFromDb.size()).isEqualTo(1);
+		
+		assertEquals(savedInDb, getFromDb.get(0));
 
 	}
 
