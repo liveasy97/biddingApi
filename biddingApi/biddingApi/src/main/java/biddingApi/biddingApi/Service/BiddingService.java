@@ -2,12 +2,13 @@ package biddingApi.biddingApi.Service;
 
 import java.util.List;
 
-import biddingApi.biddingApi.Entities.BiddingData;
+
 import biddingApi.biddingApi.Model.BidDeleteResponse;
 import biddingApi.biddingApi.Model.BidPostRequest;
 import biddingApi.biddingApi.Model.BidPostResponse;
 import biddingApi.biddingApi.Model.BidPutRequest;
 import biddingApi.biddingApi.Model.BidPutResponse;
+import sharedEntity.BiddingData;
 
 public interface BiddingService {
 

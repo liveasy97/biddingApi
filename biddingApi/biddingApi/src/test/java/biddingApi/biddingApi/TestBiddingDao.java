@@ -19,9 +19,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import biddingApi.biddingApi.Dao.BiddingDao;
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.ErrorConstants.Constants;
+import sharedDao.BiddingDao;
+import sharedEntity.BiddingData;
 
 
 @DataJpaTest

@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import biddingApi.biddingApi.Dao.BiddingDao;
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.ErrorConstants.Constants;
 import biddingApi.biddingApi.Exception.BusinessException;
 import biddingApi.biddingApi.Exception.EntityNotFoundException;
@@ -23,6 +21,8 @@ import biddingApi.biddingApi.Model.BidPutRequest;
 import biddingApi.biddingApi.Model.BidPutResponse;
 import biddingApi.biddingApi.Util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import sharedDao.BiddingDao;
+import sharedEntity.BiddingData;
 
 @Service
 @Slf4j

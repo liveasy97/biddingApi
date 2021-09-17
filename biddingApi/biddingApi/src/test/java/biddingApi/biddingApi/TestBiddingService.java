@@ -19,8 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import biddingApi.biddingApi.Dao.BiddingDao;
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.ErrorConstants.Constants;
 import biddingApi.biddingApi.Exception.BusinessException;
 import biddingApi.biddingApi.Exception.EntityNotFoundException;
@@ -30,6 +28,8 @@ import biddingApi.biddingApi.Model.BidPostResponse;
 import biddingApi.biddingApi.Model.BidPutRequest;
 import biddingApi.biddingApi.Model.BidPutResponse;
 import biddingApi.biddingApi.Service.BiddingServiceImpl;
+import sharedDao.BiddingDao;
+import sharedEntity.BiddingData;
 
 @SpringBootTest
 public class TestBiddingService {

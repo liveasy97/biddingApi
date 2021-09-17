@@ -27,8 +27,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import biddingApi.biddingApi.Controller.BiddingController;
-import biddingApi.biddingApi.Dao.BiddingDao;
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.ErrorConstants.Constants;
 import biddingApi.biddingApi.Model.BidDeleteResponse;
 import biddingApi.biddingApi.Model.BidPostRequest;
@@ -37,6 +35,8 @@ import biddingApi.biddingApi.Model.BidPutRequest;
 import biddingApi.biddingApi.Model.BidPutResponse;
 import biddingApi.biddingApi.Service.BiddingService;
 import biddingApi.biddingApi.Util.JwtUtil;
+import sharedDao.BiddingDao;
+import sharedEntity.BiddingData;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = BiddingController.class)

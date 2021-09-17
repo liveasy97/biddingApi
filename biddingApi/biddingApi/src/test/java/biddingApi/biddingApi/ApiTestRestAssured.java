@@ -15,12 +15,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.ErrorConstants.Constants;
 import biddingApi.biddingApi.Model.BidPostRequest;
 import biddingApi.biddingApi.Model.BidPutRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import sharedEntity.BiddingData;
 import io.restassured.path.json.JsonPath;
 
 @TestMethodOrder(OrderAnnotation.class)

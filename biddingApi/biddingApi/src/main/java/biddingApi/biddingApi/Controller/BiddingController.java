@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import biddingApi.biddingApi.Entities.BiddingData;
 import biddingApi.biddingApi.Exception.EntityNotFoundException;
 import biddingApi.biddingApi.Model.BidDeleteResponse;
 import biddingApi.biddingApi.Model.BidPostRequest;
@@ -25,6 +24,7 @@ import biddingApi.biddingApi.Model.BidPutResponse;
 import biddingApi.biddingApi.Service.BiddingService;
 import biddingApi.biddingApi.Util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import sharedEntity.BiddingData;
 
 @RestController
 @Slf4j

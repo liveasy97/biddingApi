@@ -2,10 +2,10 @@ package biddingApi.biddingApi.Model;
 
 import java.util.List;
 
-import biddingApi.biddingApi.Entities.BiddingData.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sharedEntity.BiddingData.Unit;
 
 @NoArgsConstructor
 @AllArgsConstructor
